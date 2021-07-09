@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-print("\n\n============================")
+print("\n============================")
 print("== ABC | A BIT CALCULATOR ==")
 print("============================")
 
@@ -29,13 +29,14 @@ while True:
 
     # Output
     print("\nThese are the converted values:")
-    print(f">> Bit  : {value}")
-    print(f">> Byte : {value / 1024**0 / 8}")
-    print(f">> KByte: {value / 1024**1 / 8}")
-    print(f">> MByte: {value / 1024**2 / 8}")
-    print(f">> GByte: {value / 1024**3 / 8}")
-    print(f">> TByte: {value / 1024**4 / 8}")
+    print(f">> Bit  : " + "{:,}".format(value))
+    print(f">> Byte : " + "{:,}".format(value / 1024**0 / 8))
+    print(f">> KByte: " + "{:,}".format(value / 1024**1 / 8))
+    print(f">> MByte: " + "{:,}".format(value / 1024**2 / 8))
+    print(f">> GByte: " + "{:,}".format(value / 1024**3 / 8))
+    print(f">> TByte: " + "{:,}".format(value / 1024**4 / 8))
 
+    # Repeat the program
     repeat = input("\nDo you want to convert another number? [y/n]\n>> ")
 
     if repeat != "y":
