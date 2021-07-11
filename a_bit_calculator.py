@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import os
+import platform
 
 while True:
     format = ""
@@ -28,12 +29,12 @@ while True:
             except:
                 print("\n== Invalid input: Please enter a number ==")
                 input("[Enter]")
-                os.system('cls')
+                clear()
         else:
             print("\n== Invalid input: Please enter a number between 1 and 6 ==")
             input("[Enter]")
             format = ""
-            os.system('cls')
+            clear()
 
     # Calculate value to bit
     if format > 1:
@@ -50,7 +51,15 @@ while True:
 
     # Repeat the program
     repeat = input("\nDo you want to convert another number? [y/n]\n>> ")
-    os.system('cls')
+    clear()
 
     if repeat != "y":
         break
+
+def clear():
+    if platform.system() == "Linux":
+        os.system('clear')
+    elif platform.system() == "Windows":
+        os.system('cls')
+    elif platform.system() == "Darwin":
+        os.system('clear')
