@@ -3,6 +3,14 @@
 import os
 import platform
 
+def clear():
+    if platform.system() == "Linux":
+        os.system('clear')
+    elif platform.system() == "Windows":
+        os.system('cls')
+    elif platform.system() == "Darwin":
+        os.system('clear')
+
 while True:
     format = ""
 
@@ -55,11 +63,3 @@ while True:
 
     if repeat != "y":
         break
-
-def clear():
-    if platform.system() == "Linux":
-        os.system('clear')
-    elif platform.system() == "Windows":
-        os.system('cls')
-    elif platform.system() == "Darwin":
-        os.system('clear')
