@@ -1,65 +1,113 @@
 #!/usr/bin/env python
 
+
 import os
 import platform
 
-def clear():
-    if platform.system() == "Linux":
-        os.system('clear')
-    elif platform.system() == "Windows":
-        os.system('cls')
-    elif platform.system() == "Darwin":
-        os.system('clear')
 
-while True:
-    format = ""
+def main():
+    format  = get_format()
+    value   = get_value(format)
+    print_output(value)
 
-    # Get format
+    main() if ask_for_repeation() else exit_program()
+
+
+# region GET FORMAT
+def get_format():
     while True:
-        print("\n============================")
-        print("== ABC | A BIT CALCULATOR ==")
-        print("============================")
+        print_format_UI()
+        format = input()
 
-        print("\nUnit to convert from:\n[1] Bit\n[2] Byte\n[3] KByte\n[4] MByte\n[5] GByte\n[6] TByte\n>> ", end = "")
+        if not verify_format(format):
+            continue
 
-        if (format == ""):
-            format = input()
-        else:
-            print(format)
+        return int(format)
 
-        if not (not str(format).isdigit() or (int(format) < 1) or (int(format) > 6)):
-            format = int(format)
 
-    # Get value
-            try:
-                value = float(input("\nValue to convert: \n>> "))
-                break
-            except:
-                print("\n== Invalid input: Please enter a number ==")
-                input("[Enter]")
-                clear()
-        else:
-            print("\n== Invalid input: Please enter a number between 1 and 6 ==")
-            input("[Enter]")
-            format = ""
-            clear()
+def print_format_UI():
+    print_header()
+    print("\nUnit to convert from:\n[1] Bit\n[2] Byte\n[3] KByte\n[4] MByte\n[5] GByte\n[6] TByte\n>> ", end=" ")
 
-    # Calculate value to bit
-    if format > 1:
-        value = value * 8 * 1024**(format - 2)
 
-    # Output
+def verify_format(format):
+    if format.isdigit() and (1 <= int(format) <= 6):
+        return True
+
+    print("\n== Invalid input: Please enter a number between 1 and 6 ==")
+    input("[Enter]")
+    return False
+# endregion
+
+
+# region GET VALUE
+def get_value(format):
+    while True:
+        print_value_UI(format)
+        value = input()
+
+        if not verify_value(value):
+            continue
+
+        return unify_value_into_bit(float(value), format)
+
+
+def print_value_UI(format):
+    print_header()
+    print(f"\nSelected format: {format}\n\nValue to convert:\n>> ", end=" ")
+
+
+def verify_value(value):
+    if value.isdigit():
+        return True
+
+    print("\n== Invalid input: Please enter a number ==")
+    input("[Enter]")
+    return False
+
+
+def unify_value_into_bit(value, format):
+    return value if format == 1 else value * 8 * 1024**(format - 2)
+# endregion
+
+
+def print_output(result):
     print("\nThese are the converted values:")
-    print(f">> Bit  : " + "{:,}".format(value))
-    print(f">> Byte : " + "{:,}".format(value / 1024**0 / 8))
-    print(f">> KByte: " + "{:,}".format(value / 1024**1 / 8))
-    print(f">> MByte: " + "{:,}".format(value / 1024**2 / 8))
-    print(f">> GByte: " + "{:,}".format(value / 1024**3 / 8))
-    print(f">> TByte: " + "{:,}".format(value / 1024**4 / 8))
+    print(f">> Bit  : " + "{:,}".format(result))
+    print(f">> Byte : " + "{:,}".format(result / 1024**0 / 8))
+    print(f">> KByte: " + "{:,}".format(result / 1024**1 / 8))
+    print(f">> MByte: " + "{:,}".format(result / 1024**2 / 8))
+    print(f">> GByte: " + "{:,}".format(result / 1024**3 / 8))
+    print(f">> TByte: " + "{:,}".format(result / 1024**4 / 8))
 
-    # Repeat the program
+
+def print_header():
+    clear_console()
+    print("\n============================")
+    print("== ABC | A BIT CALCULATOR ==")
+    print("============================")
+
+
+def clear_console():
+    current_system = platform.system()
+    
+    if current_system == "Linux":
+        os.system('clear')
+    elif current_system == "Windows":
+        os.system('cls')
+    elif current_system == "Darwin":
+        os.system('clear')
+
+
+def ask_for_repeation():
     repeat = input("\nDo you want to convert another number? [y/n]\n>> ")
-    clear()
+    return True if repeat == "y" else False
 
-    if repeat != "y":
-        break
+
+def exit_program():
+    clear_console()
+    exit(0)
+
+
+if __name__ == "__main__":
+    main()
